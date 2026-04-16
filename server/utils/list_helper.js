@@ -1,5 +1,5 @@
 // Recieves array of blogs and returns value 1
-const dummy = (blogs) => {
+const dummy = () => {
   return 1
 }
 
@@ -27,7 +27,7 @@ const mostBlogs = (blogs) => {
     return count
   }, {})
   const mostBlogsAuthor = Object.keys(listOfAuthors).reduce((author, max) =>
-    listOfAuthors[author] > listOfAuthors[max] ? author : max
+    listOfAuthors[author] > listOfAuthors[max] ? author : max,
   )
   return {
     author: mostBlogsAuthor,
@@ -43,10 +43,7 @@ const mostLikes = (blogs) => {
 
   return blogs.length === 0
     ? {}
-    : {
-        author: mostLiked.author,
-        likes: mostLiked.likes,
-      }
+    : { author: mostLiked.author, likes: mostLiked.likes }
 }
 
 module.exports = {

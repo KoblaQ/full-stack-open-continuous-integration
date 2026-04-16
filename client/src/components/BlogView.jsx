@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import UserContext from './UserContext'
 
 import { Button, TextField } from '@mui/material'
 import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 
-const BlogView = ({ blogs, updateBlog, deleteBlog }) => {
+const BlogView = ({ blogs, updateBlog }) => {
   // const user = useContext(UserContext)
   const id = useParams().id
   const blog = blogs.find((b) => b.id === id)
@@ -25,12 +25,12 @@ const BlogView = ({ blogs, updateBlog, deleteBlog }) => {
     updateBlog(updatedBlog)
   }
 
-  const handleDeleteBlog = (event) => {
-    event.preventDefault()
-    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      deleteBlog(blog.id)
-    }
-  }
+  // const handleDeleteBlog = (event) => {
+  //   event.preventDefault()
+  //   if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+  //     deleteBlog(blog.id)
+  //   }
+  // }
 
   const blogStyle = {
     paddingTop: 10,

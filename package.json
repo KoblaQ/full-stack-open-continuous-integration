@@ -2,8 +2,9 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "build": "npm run build --prefix client",
-    "start": "NODE_ENV=production npm start --prefix server",
-    "test": "NODE_ENV=test vitest --prefix client"
+    "start": "npm start --prefix server",
+    "test": "NODE_ENV=test vitest --prefix client",
+    "build:ui": "npm run build --prefix client && rm -rf server/dist && cp -r client/dist server/"
   },
   "devDependencies": {
     "concurrently": "^8.0.0"
