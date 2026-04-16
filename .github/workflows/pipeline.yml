@@ -34,8 +34,6 @@ jobs:
         run: npm run test --prefix server
       - name: Build client
         run: npm run build --prefix client
-      - name: Fail if not on main branch
-        run: exit 1
       - name: Copy Client Build to Server
         run: |
           rm -rf server/dist
@@ -90,3 +88,14 @@ jobs:
 
             [View Commit](${{ github.event.head_commit.url}})
             [View Workflow Run](${{ github.server_url}}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+  tag_release:
+    if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip') }}
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@4ed44965e0db8dab2b466a16da04aec3cc312fd8
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BUMP: patch
