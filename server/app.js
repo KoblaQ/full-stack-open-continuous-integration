@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const mongoose = require('mongoose')
 const logger = require('./utils/logger')
 const config = require('./utils/config')
@@ -35,11 +36,18 @@ if (process.env.NODE_ENV === 'test') {
 
 // serve the built Vite frontend in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(this.path.join(__dirname, '../client/dist')))
+  app.use(express.static(path.join(__dirname, 'dist')))
   app.get('/*splat', (req, res) => {
-    res.sendFile(this.path.jjoin(__dirname, '../client/dist/index.haml'))
+    res.sendFile(path.join(__dirname, 'dist', 'index.html'))
   })
 }
+// // serve the built Vite frontend in production FROM THE CLIENT FOLDER
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static(path.join(__dirname, '../client/dist')))
+//   app.get('/*splat', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
+//   })
+// }
 
 app.use(middleware.userExtractor)
 app.use(middleware.unknownEndpoint)
