@@ -67,7 +67,7 @@ jobs:
             **Message:** ${{ github.event.head_commit.message}}
             **Author:** ${{ github.event.head_commit.author.name }}
   notify_build_failure:
-    if: ${{ needs.build_and_test.result == 'failure' || needs.deploy.result == 'failure' }}
+    if: ${{ always() && (needs.build_and_test.result == 'failure' || needs.deploy.result == 'failure') }}
     needs: [build_and_test, deploy]
     runs-on: ubuntu-latest
     steps:
