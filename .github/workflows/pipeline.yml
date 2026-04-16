@@ -11,6 +11,10 @@ on:
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
+    env:
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}
+      TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+      SECRET: ${{ secrets.SECRET }}
     steps:
       - uses: actions/checkout/@v6
       - uses: actions/setup-node@v6
@@ -34,3 +38,11 @@ jobs:
         run: |
           rm -rf server/dist
           cp -r client/dist server/
+  deploy:
+    if: ${{ github.event_name == 'push' }}
+    needs: [build_and_test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger deployment
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message, ','), '#skip') }}
+        run: curl ${{ secrets.RENDER_DEPLOY_HOOK }}
