@@ -10,7 +10,7 @@ const loginRouter = require('./controllers/login')
 
 const app = express()
 
-logger.info('connecting to', config.MONGODB_URI)
+// logger.info('connecting to', config.MONGODB_URI)
 mongoose
   .connect(config.MONGODB_URI)
   .then(() => {
@@ -49,6 +49,13 @@ if (process.env.NODE_ENV === 'production') {
 //     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 //   })
 // }
+
+// endpoint for doing an application health check
+app.get('/health', (req, res) => {
+  // // eslint-disable-next-line no-constant-condition
+  // if (true) throw 'error...  '
+  res.send('ok')
+})
 
 app.use(middleware.userExtractor)
 app.use(middleware.unknownEndpoint)
