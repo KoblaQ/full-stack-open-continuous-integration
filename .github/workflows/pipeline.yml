@@ -16,7 +16,7 @@ jobs:
       TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
       SECRET: ${{ secrets.SECRET }}
     steps:
-      - uses: actions/checkout/@v6
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v6
         with:
           node-version: '24'
