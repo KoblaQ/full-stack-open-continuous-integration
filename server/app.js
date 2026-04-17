@@ -33,15 +33,22 @@ if (process.env.NODE_ENV === 'test') {
   const testingRouter = require('./controllers/testing')
   app.use('/api/testing', testingRouter)
 }
+// endpoint for doing an application health check
+app.get('/health', (req, res) => {
+  // // eslint-disable-next-line no-constant-condition
+  // if (true) throw 'error...  '
+  res.send('ok')
+})
 
 // serve the built Vite frontend in production
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'dist')))
-  app.get('/*', (req, res) => {
+  // app.get('/*', (req, res) => {
+  app.get('/*splat', (req, res) => {
+    // app.get(/^\/(?!api).*/, (req, res) => {
     res.sendFile(path.join(__dirname, 'dist', 'index.html'))
   })
 }
-
 // // serve the built Vite frontend in production FROM THE CLIENT FOLDER
 // if (process.env.NODE_ENV === 'production') {
 //   app.use(express.static(path.join(__dirname, '../client/dist')))
@@ -49,13 +56,6 @@ if (process.env.NODE_ENV === 'production') {
 //     res.sendFile(path.join(__dirname, '../client/dist/index.html'))
 //   })
 // }
-
-// endpoint for doing an application health check
-app.get('/health', (req, res) => {
-  // // eslint-disable-next-line no-constant-condition
-  // if (true) throw 'error...  '
-  res.send('ok')
-})
 
 app.use(middleware.userExtractor)
 app.use(middleware.unknownEndpoint)
