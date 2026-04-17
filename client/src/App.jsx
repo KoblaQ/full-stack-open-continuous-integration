@@ -102,7 +102,7 @@ const App = () => {
     //   setUser(user)
     //   blogService.setToken(user.token) // Get and set the user jwt from the localStorage
     // }
-  })
+  }, [userDispatch])
 
   // UseRef
   const blogFormRef = useRef() // Passed as a prop to the Toggable Component
