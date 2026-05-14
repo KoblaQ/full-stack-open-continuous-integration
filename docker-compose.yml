@@ -1,0 +1,18 @@
+services:
+  nginx:
+    image: nginx:1.29
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: blog-reverse-proxy
+    depends_on:
+      - server
+  server:
+    image: blog-backend-dev
+    container_name: blog-backend-dev
+    build:
+      context: . # needs to be the root so Dockerfile can run Copy from the client folder
+      dockerfile: server/Dockerfile
+    env_file:
+      - ./.env
