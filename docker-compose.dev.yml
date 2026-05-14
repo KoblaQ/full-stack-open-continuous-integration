@@ -1,0 +1,31 @@
+services:
+  app:
+    image: blog-frontend-dev
+    build:
+      context: ./client
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./client:/usr/src/app
+    container_name: blog-frontend-dev
+  nginx:
+    image: nginx:1.29
+    volumes:
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - 8080:80
+    container_name: blog-reverse-proxy
+    depends_on:
+      - app
+      - server
+  server:
+    image: blog-backend-dev
+    container_name: blog-backend-dev
+    ports:
+      - 3003:3003
+    build:
+      context: ./server # The context will pick this directory as the "build context"
+      dockerfile: dev.Dockerfile # This will simply tell which dockerfile to read
+    volumes:
+      - ./server:/usr/src/app
+    env_file:
+      - ./.env
